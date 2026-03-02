@@ -32,6 +32,9 @@ bld/
 [Ll]og/
 [Ll]ogs/
 
+## Certificates (never commit private keys)
+*.pfx
+
 ## OS
 .DS_Store
 Thumbs.db
