@@ -1,9 +1,37 @@
-# npm
-node_modules
+## .NET
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
 
-# build
-main.js
-*.js.map
+## NuGet
+**/[Pp]ackages/*
+!**/[Pp]ackages/build/
+*.nupkg
+**/packages/*
+!**/packages/build/
 
-# obsidian
-data.json
+## Visual Studio
+.vs/
+*.rsuser
+*.userprefs
+
+## Build
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+## OS
+.DS_Store
+Thumbs.db
