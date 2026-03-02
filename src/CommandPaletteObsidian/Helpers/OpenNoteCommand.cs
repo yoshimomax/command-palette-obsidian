@@ -7,7 +7,7 @@ namespace CommandPaletteObsidian.Helpers;
 /// <summary>
 /// Command that opens an Obsidian note via the obsidian:// URI scheme.
 /// </summary>
-public class OpenNoteCommand : InvokableCommand
+public partial class OpenNoteCommand : InvokableCommand
 {
     private readonly ObsidianVaultDiscovery.NoteInfo _note;
 

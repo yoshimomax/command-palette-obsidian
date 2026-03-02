@@ -8,7 +8,7 @@ namespace CommandPaletteObsidian.Pages;
 /// A dynamic list page that searches Obsidian notes by title across all discovered vaults.
 /// Notes are cached on first load and refreshed when the page is shown.
 /// </summary>
-public class ObsidianSearchPage : DynamicListPage
+public partial class ObsidianSearchPage : DynamicListPage
 {
     private List<ObsidianVaultDiscovery.NoteInfo> _allNotes = [];
     private string _searchText = string.Empty;

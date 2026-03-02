@@ -37,5 +37,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: CommandPaletteObsidian-${{ matrix.platform }}
-          path: src/CommandPaletteObsidian/AppPackages/**/*.msix
+          path: src/CommandPaletteObsidian/bin/**/AppPackages/**/*.msix
           if-no-files-found: warn
