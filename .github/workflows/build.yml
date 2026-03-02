@@ -31,3 +31,11 @@ jobs:
 
       - name: Test
         run: dotnet test --no-build --configuration ${{ matrix.configuration }} -p:Platform=${{ matrix.platform }} --verbosity normal
+
+      - name: Upload MSIX package
+        if: matrix.configuration == 'Release'
+        uses: actions/upload-artifact@v4
+        with:
+          name: CommandPaletteObsidian-${{ matrix.platform }}
+          path: src/CommandPaletteObsidian/AppPackages/**/*.msix
+          if-no-files-found: warn
