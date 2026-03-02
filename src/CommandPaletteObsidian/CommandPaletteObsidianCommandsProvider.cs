@@ -4,24 +4,23 @@ using CommandPaletteObsidian.Pages;
 
 namespace CommandPaletteObsidian;
 
-public partial class CommandPaletteObsidianCommandsProvider : ICommandProvider
+public sealed partial class CommandPaletteObsidianCommandsProvider : CommandProvider
 {
-    public string DisplayName => "Obsidian Notes";
+    private readonly ICommandItem[] _commands;
 
-    public IconInfo Icon => new("\uE70B"); // Segoe Fluent: Document
-
-    #pragma warning disable CS0067
-    public event EventHandler? CommandsChanged;
-    #pragma warning restore CS0067
-
-    public ICommandItem[] TopLevelCommands()
+    public CommandPaletteObsidianCommandsProvider()
     {
-        return [new CommandItem(new ObsidianSearchPage())
-        {
-            Title = "Search Obsidian Notes",
-            Subtitle = "Search and open notes from your Obsidian vaults",
-        }];
+        DisplayName = "Obsidian Notes";
+        Icon = new IconInfo("\uE70B"); // Segoe Fluent: Document
+
+        _commands = [
+            new CommandItem(new ObsidianSearchPage())
+            {
+                Title = "Search Obsidian Notes",
+                Subtitle = "Search and open notes from your Obsidian vaults",
+            }
+        ];
     }
 
-    public void Dispose() { }
+    public override ICommandItem[] TopLevelCommands() => _commands;
 }
