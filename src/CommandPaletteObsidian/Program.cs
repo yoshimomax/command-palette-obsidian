@@ -12,15 +12,17 @@ public class Program
     {
         if (args.Length > 0 && args[0] == "-RegisterProcessAsComServer")
         {
-            using var server = new ComServer();
-            var extensionDisposedEvent = new ManualResetEvent(false);
+            global::Shmuelie.WinRTServer.ComServer server = new();
 
-            var extensionInstance = new CommandPaletteObsidian(extensionDisposedEvent);
+            ManualResetEvent extensionDisposedEvent = new(false);
+
+            CommandPaletteObsidian extensionInstance = new(extensionDisposedEvent);
             server.RegisterClass<CommandPaletteObsidian, IExtension>(() => extensionInstance);
             server.Start();
 
             extensionDisposedEvent.WaitOne();
             server.Stop();
+            server.UnsafeDispose();
         }
     }
 }
