@@ -1,10 +1,10 @@
-#Requires -RunAsAdministrator
 <#
 .SYNOPSIS
     Installs a pre-built MSIX package downloaded from GitHub Actions.
+    No administrator privileges required.
 .DESCRIPTION
-    1. Installs the included .cer certificate to Trusted People
-    2. Installs the .msix package
+    1. Installs the .cer certificate to CurrentUser\TrustedPeople
+    2. Installs the .msix package via Add-AppxPackage
 .PARAMETER Path
     Path to the folder containing the .msix and .cer files.
     Default: current directory.
@@ -20,36 +20,35 @@ $ErrorActionPreference = "Stop"
 $Path = Resolve-Path $Path
 
 Write-Host "=== Install Command Palette Obsidian ===" -ForegroundColor Cyan
-Write-Host "Source: $Path"
 Write-Host ""
 
-# Check Developer Mode
+# Developer Mode check
 $devMode = Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" -Name "AllowDevelopmentWithoutDevLicense" -ErrorAction SilentlyContinue
 if (-not $devMode -or $devMode.AllowDevelopmentWithoutDevLicense -ne 1) {
     Write-Host "[ERROR] Developer Mode is not enabled." -ForegroundColor Red
-    Write-Host "Settings > System > For developers > Developer Mode" -ForegroundColor Yellow
+    Write-Host "  Settings > System > For developers > Developer Mode" -ForegroundColor Yellow
     exit 1
 }
 
-# Find certificate
+# Install certificate (CurrentUser - no admin needed)
 $cerFile = Get-ChildItem -Path $Path -Filter "*.cer" -Recurse | Select-Object -First 1
 if ($cerFile) {
     Write-Host "Installing certificate: $($cerFile.Name)"
-    Import-Certificate -FilePath $cerFile.FullName -CertStoreLocation "Cert:\LocalMachine\TrustedPeople" | Out-Null
-    Write-Host "[OK] Certificate installed" -ForegroundColor Green
+    Import-Certificate -FilePath $cerFile.FullName -CertStoreLocation "Cert:\CurrentUser\TrustedPeople" | Out-Null
+    Write-Host "[OK] Certificate trusted" -ForegroundColor Green
 }
 else {
-    Write-Host "[WARN] No .cer file found - skipping certificate install" -ForegroundColor Yellow
+    Write-Host "[WARN] No .cer file found" -ForegroundColor Yellow
 }
 
-# Remove old installation
+# Remove old version
 $existing = Get-AppxPackage -Name "*CommandPaletteObsidian*" -ErrorAction SilentlyContinue
 if ($existing) {
-    Write-Host "Removing existing installation..."
+    Write-Host "Removing previous version..."
     Remove-AppxPackage -Package $existing.PackageFullName
 }
 
-# Find and install MSIX
+# Install MSIX
 $msixFile = Get-ChildItem -Path $Path -Filter "*.msix" -Recurse | Select-Object -First 1
 if (-not $msixFile) {
     Write-Host "[ERROR] No .msix file found in $Path" -ForegroundColor Red
@@ -58,10 +57,10 @@ if (-not $msixFile) {
 
 Write-Host "Installing: $($msixFile.Name)"
 Add-AppxPackage -Path $msixFile.FullName
-Write-Host "[OK] Installed!" -ForegroundColor Green
 
 Write-Host ""
-Write-Host "Next:" -ForegroundColor Cyan
+Write-Host "=== Done! ===" -ForegroundColor Green
+Write-Host ""
 Write-Host "  1. Win+Alt+Space で Command Palette を開く"
 Write-Host "  2. 'Reload Command Palette Extension' を実行"
 Write-Host "  3. 'Search Obsidian Notes' で検索"

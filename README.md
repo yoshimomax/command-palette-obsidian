@@ -21,15 +21,15 @@ PowerToys Command Palette extension for searching and opening [Obsidian](https:/
 
 1. [Actions タブ](../../actions) から最新の成功したビルドを開く
 2. ページ下部の **Artifacts** から `CommandPaletteObsidian-x64` をダウンロード
-3. ZIP を展開し、**管理者権限の PowerShell** で以下を実行:
+3. ZIP を展開し、PowerShell で以下を実行:
 
 ```powershell
 .\scripts\install-msix.ps1 -Path "展開したフォルダのパス"
 ```
 
-スクリプトが証明書のインストールと MSIX のインストールを自動で行います。
+スクリプトが証明書のインストール（ユーザーストア）と MSIX のインストールを自動で行います。管理者権限は不要です。
 
-> **手動でやる場合**: `CommandPaletteObsidian.cer` をダブルクリック → 「証明書のインストール」→ ストアの場所「ローカルコンピューター」→「信頼されたユーザー」に配置。その後 `.msix` をダブルクリック。
+> **手動でやる場合**: `CommandPaletteObsidian.cer` をダブルクリック → 「証明書のインストール」→ 「現在のユーザー」→「信頼されたユーザー」に配置。その後 `.msix` をダブルクリック。
 
 ### 方法B: ローカルビルド (dotnet CLI のみ・Visual Studio 不要)
 
@@ -39,7 +39,7 @@ PowerToys Command Palette extension for searching and opening [Obsidian](https:/
 git clone https://github.com/yoshimomax/command-palette-obsidian.git
 cd command-palette-obsidian
 
-# 管理者権限の PowerShell で実行
+# PowerShell で実行（管理者権限不要）
 .\scripts\install.ps1
 ```
 
