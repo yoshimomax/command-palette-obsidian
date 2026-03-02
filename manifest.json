@@ -1,0 +1,9 @@
+{
+	"id": "command-palette-obsidian",
+	"name": "Command Palette",
+	"version": "1.0.0",
+	"minAppVersion": "0.15.0",
+	"description": "A command palette plugin for Obsidian",
+	"author": "",
+	"isDesktopOnly": false
+}
